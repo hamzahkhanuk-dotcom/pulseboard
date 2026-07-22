@@ -493,11 +493,10 @@
   // ---------- HEADLINE per-character ----------
   function startHero(){
     const h=document.getElementById('headline');
-    const build=(txt,grad)=>txt.split(' ').map(w=>
-      '<span class="wrap">'+(grad?'<span class="gr" style="display:inline-block">':'')+
-      w.split('').map(c=>'<span class="ch">'+c+'</span>').join('')+
-      (grad?'</span>':'')+'</span>').join(' ');
-    h.innerHTML=build(h.dataset.l1,false)+'<br>'+build(h.dataset.l2,true);
+    const build=txt=>txt.split(' ').map(w=>
+      '<span class="wrap">'+w.split('').map(c=>'<span class="ch">'+c+'</span>').join('')+'</span>').join(' ');
+    // gradient line rises as ONE block (Chrome can't clip gradients through per-letter spans)
+    h.innerHTML=build(h.dataset.l1)+'<br><span class="wrap"><span class="ch gr" style="display:inline-block">'+h.dataset.l2+'</span></span>';
     h.querySelectorAll('.ch').forEach((c,i)=>c.style.animationDelay=(i*0.028)+'s');
     setTimeout(()=>dash.classList.add('on'),900);
   }
